@@ -51,29 +51,6 @@ class ProfileController extends AbstractController
             $entityManager->persist($userProfile);
             $entityManager->flush();
 
-            // $file stores the uploaded jpeg file
-            /** @var Symfony\Component\HttpFoundation\File\UploadedFile $file */
-
-            $file = $avatar->getAvatar();
-
-            $fileName = $this->generateUniqueFileName().'.'.$file->guessExtension();
-
-            // Move the file to the directory where avatars are stored
-            try {
-                $file->move(
-                    $this->getParameter('avatars_directory'),
-                    $fileName
-                );
-            } catch (FileException $e) {
-                // ... handle exception if something happens during file upload
-            }
-
-            // updates the 'avatar' property to store the jpeg file name
-            // instead of its contents
-            $product->setAvatar($fileName);
-
-            // ... persist the $product variable or any other work
-
             return $this->redirectToRoute('profile_success');
         }
 
